@@ -1,16 +1,16 @@
 var songlists20 = [
 
 "666 [MXM 20]",
-"ΣgO [MXM 20]",
-"Erm, could it be a Spatiotemporal ShockWAVE Syndrome...? [MXM 20]",
-"ΣmbryO [MXM 20]",
+"ΣgØ [MXM 20]",
+"* Erm, could it be a Spatiotemporal ShockWAVE Syndrome...? [MXM 20]",
+"ΣmbryØ [MXM 20]",
 "Feels Seasickness...* [MXM 20]",
 "FIN4LE ～終止線の彼方へ～ [MXM 20]",
 "HE4VEN ～天国へようこそ～ [MXM 20]",
 "I [MXM 20]",
 "iLLness LiLin [MXM 20]",
 "WHITEOUT [MXM 20]",
-"Xronier [MXM 20]",
+"Xronièr [MXM 20]",
 "Lachryma《Re:Queen'M》 [GRV 20]",
 
 ]
