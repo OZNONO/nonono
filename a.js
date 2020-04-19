@@ -339,3 +339,20 @@ var songlists18 = [
 "冥 Rockin' SWING REMIX [ INF 18 ]"
 
 ]
+
+var songlists20 = [
+  
+"666",
+"ΣgO",
+"Erm, could it be a Spatiotemporal ShockWAVE Syndrome...?",
+"ΣmbryO",
+"Feels Seasickness...*",
+"FIN4LE ～終止線の彼方へ～",
+"HE4VEN ～天国へようこそ～",
+"I",
+"iLLness LiLin",
+"WHITEOUT",
+"Xronier",
+"Lachryma《Re:Queen'M》",
+
+]
