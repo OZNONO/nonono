@@ -483,7 +483,7 @@ var songlists17 = [
 
 function input(){
   $("ul").empty();
-  var howmany = document.getElementById("input").value;
+  var howmany = document.getElementById("select1").value;
     for(i=0;i<howmany;i++){
       var newDiv = document.createElement('div');
       newDiv.id = "result"+i
