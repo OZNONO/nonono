@@ -822,22 +822,20 @@ var songlists17 = [
 
 var songlists1718 = new Array;
 songlists1718 = songlists17.concat(songlists18);
+xi = songlists1718.length; // 곡 갯수
+xxi.innerHTML = "전체 곡 "+ xi +"곡";
 
-function input(){
+function input() {
   $("ul").empty();
   var howmany = document.getElementById("select1").value;
     for(i=0;i<howmany;i++){
       var newDiv = document.createElement('div');
       newDiv.id = "result"+i
-      var newContent = document.createTextNode(songlists1718[Math.floor(Math.random()*796)]);
+      var newContent = document.createTextNode(songlists20[Math.floor(Math.random()*(xi-1))]);
       newDiv.appendChild(newContent);
       document.getElementById("ul").appendChild(newDiv);
     }
   message2.innerHTML = "마음에 들지 않는다면 재추첨 버튼을 눌러주세요"
   cc.innerHTML = "재추첨"
 
-}
-
-function output(){
-document.write()
-}
+};

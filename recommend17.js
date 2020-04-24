@@ -1,7 +1,7 @@
 var songlists17 = [
-
+  
   "120秒のエンドロール [ MXM 17 ]",
-  "	50th Memorial Songs-The BEMANI History- [ VVD 17 ]",
+  "50th Memorial Songs-The BEMANI History- [ VVD 17 ]",
   "ABSOLUTE (EUROBEAT REMIX) [ MXM 17 ]",
   "Adrenaline Rush [ MXM 17 ]",
   "Afterimage d'automne [ MXM 17 ]",
@@ -478,24 +478,22 @@ var songlists17 = [
   "金縛りの逢を [ EXH 17 ]",
   "大宇宙ステージ [ EXH 17 ]"
 
-
 ];
 
-function input(){
+xi = songlists17.length; // 곡 갯수
+xxi.innerHTML = "전체 곡 "+ xi +"곡";
+
+function input() {
   $("ul").empty();
   var howmany = document.getElementById("select1").value;
     for(i=0;i<howmany;i++){
       var newDiv = document.createElement('div');
       newDiv.id = "result"+i
-      var newContent = document.createTextNode(songlists17[Math.floor(Math.random()*469)]);
+      var newContent = document.createTextNode(songlists17[Math.floor(Math.random()*(xi-1))]);
       newDiv.appendChild(newContent);
       document.getElementById("ul").appendChild(newDiv);
     }
   message2.innerHTML = "마음에 들지 않는다면 재추첨 버튼을 눌러주세요"
   cc.innerHTML = "재추첨"
 
-}
-
-function output(){
-document.write()
-}
+};
