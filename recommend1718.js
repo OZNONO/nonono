@@ -831,7 +831,7 @@ function input() {
     for(i=0;i<howmany;i++){
       var newDiv = document.createElement('div');
       newDiv.id = "result"+i
-      var newContent = document.createTextNode(songlists20[Math.floor(Math.random()*(xi-1))]);
+      var newContent = document.createTextNode(songlists1718[Math.floor(Math.random()*(xi-1))]);
       newDiv.appendChild(newContent);
       document.getElementById("ul").appendChild(newDiv);
     }
