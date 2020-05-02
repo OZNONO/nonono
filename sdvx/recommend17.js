@@ -1,5 +1,5 @@
 var songlists17 = [
-  
+
   "120秒のエンドロール [ MXM 17 ]",
   "50th Memorial Songs-The BEMANI History- [ VVD 17 ]",
   "ABSOLUTE (EUROBEAT REMIX) [ MXM 17 ]",
@@ -248,7 +248,7 @@ var songlists17 = [
   "GODHEART [ EXH 17 ]",
   "HE4VEN ～天国へようこそ～ [ EXH 17 ]",
   "iLLness LiLin [ EXH 17 ]",
-  "Last Re [ EXH 17 ]",
+  "Last Resort [ EXH 17 ]",
   "Rebellio [ EXH 17 ]",
   "Sailing Force [ EXH 17 ]",
   "Staring at star [ EXH 17 ]",
@@ -343,7 +343,7 @@ var songlists17 = [
   "TOXIC VIBRATION [ EXH 17 ]",
   "Triple Counter [ EXH 17 ]",
   "Twin Rocket [ EXH 17 ]",
-  "UROB&#216;ROS [ EXH 17 ]",
+  "UROBØROS [ EXH 17 ]",
   "Vampire's Territory [ EXH 17 ]",
   "Virtual Bit [ EXH 17 ]",
   "Voynich:Manuscript [ EXH 17 ]",
