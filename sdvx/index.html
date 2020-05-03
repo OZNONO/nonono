@@ -7,66 +7,43 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-  <style>
-		header {margin : 50px;}
+	<style>
+		header {margin : 30px;}
+    nav {margin-top : 15px; margin-bottom : 15px;}
   </style>
 </head>
+
 <body  class = "container ">
+
+	<nav class="navbar navbar-expand-sm navbar-light">
+		<a class="navbar-brand" href="#"></a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link" onclick="loadran()">무작위 곡 추천</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" onclick="loadrec()">곡 추천</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" onclick="loadmemo()">메모</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
   <header class="header container text-center"><h1 onclick="location.href='http://oznono.com/sdvx';">NONO SDVX</h1></header>
 
-	<div class="row">
-  <div class="col-3">
-    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-      <a class="nav-link active" id="v-pills-sogae-tab" data-toggle="pill" href="#v-pills-sogae" role="tab" aria-controls="v-pills-sogae" aria-selected="true">소개</a>
-      <a class="nav-link" id="v-pills-ranrecommend-tab" data-toggle="pill" href="#v-pills-ranrecommend" role="tab" aria-controls="v-pills-ranrecommend" aria-selected="false">곡 추천</a>
-			<a class="nav-link" id="v-pills-rec-tab" data-toggle="pill" href="#v-pills-rec" role="tab" aria-controls="v-pills-rec" aria-selected="false">엄선된 곡 추천</a>
-      <a class="nav-link" id="v-pills-memo-tab" data-toggle="pill" href="#v-pills-memo" role="tab" aria-controls="v-pills-memo" aria-selected="false">메모</a>
-    </div>
-  </div>
-  <div class="col-9">
-    <div class="tab-content" id="v-pills-tabContent">
-      <div class="tab-pane fade show active" id="v-pills-sogae" role="tabpanel" aria-labelledby="v-pills-sogae-tab">
-				<p>사운드볼텍스 관련 유틸리티(?)를 모았습니다.</p>
-			</div>
+	<div id="bonmoon">
+		<p>사운드볼텍스 관련 유틸리티(?)를 모았습니다.</p>
+	</div>
+	
 
-      <div class="tab-pane fade" id="v-pills-ranrecommend" role="tabpanel" aria-labelledby="v-pills-ranrecommend-tab">
-				<p>곡 선택장애가 왔거나 마지막 코인 고렙하고싶을때 등등 눌러주세욤</p>
-			<a href="./recommend20.html" class="btn btn-default border">20레벨 무작위 곡 추천</a><br><br>
-			<a href="./recommend19.html" class="btn btn-secondary">19레벨 무작위 곡 추천</a><br><br>
-			<a href="./recommend18.html" class="btn btn-default border">18레벨 무작위 곡 추천</a><br><br>
-			<a href="./recommend17.html" class="btn btn-secondary border">17레벨 무작위 곡 추천</a><br><br>
-			<hr>
-			<a href="./recommend1718.html" class="btn btn-default border">17~18레벨 무작위 곡 추천</a><br><br>
+<script src="./sdvxcontents.js"></script>
 
-
-			</div>
-			<div class="tab-pane fade" id="v-pills-rec" role="tabpanel" aria-labelledby="v-pills-rec-tab">
-				<p>엄선된? 추천곡들을 모았습니다.</p>
-				<a href="./rec18.html" class="btn btn-default border">엄선된 18레벨 곡 추천</a><br><br>
-				<a href="./rec17.html" class="btn btn-secondary border">엄선된 17레벨 곡 추천</a><br><br>
-
-			</div>
-      <div class="tab-pane fade" id="v-pills-memo" role="tabpanel" aria-labelledby="v-pills-memo-tab">
-				<p>20200502 탭 생성</p>
-				<hr>
-				<p>革命パッショネイト [ MXM 17 ]<br>
-					VOLTEXES IV [ MXM 17 ]<br>
-					Enjoy This Time [ MXM 17 ] <br>
-					No Way [ MXM 17 ] <br>
-					TIEFSEE [ EXH 17 ] <br>
-					2 MINUTES FIGHTERS [ EXH 17 ] <br>
-					獅子奮迅 [ MXM 17 ] <br>
-					それは花火のような恋 [ MXM 17 ] <br>
-					CUTIE☆EX-DREAM [ EXH 17 ] <br>
-					Borealis [ EXH 17 ] <br>
-					
-
-				</p>
-
-      </div>
-    </div>
-  </div>
-</div>
   <!-- 이하 BOOTSRTAP 8242336038-->
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
