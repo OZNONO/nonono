@@ -5,7 +5,9 @@ function loadsogae() {
  <p>Contact : open.kakao.com/me/OZNONO</p>\
  <p>twitter : @ji112</p>\
  <p>개인 웹사이트 입니다. 모 동네의 블러드캣에서 영감을 받았대요.</p>\
- <p><button class=\"btn btn-default border\" onclick=\"location.href='http://oznono.com/sdvx';\">SDVX</button></p>";
+ <p><button class=\"btn btn-default border\" onclick=\"location.href='http://oznono.com/sdvx';\">SDVX</button></p>\
+ <p><button class=\"btn btn-default border\" onclick=\"location.href='http://oznono.com/popn';\">pop'n</button></p>\
+";
 };
 
 
