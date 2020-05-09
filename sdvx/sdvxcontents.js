@@ -23,5 +23,6 @@ function loadrec() {
 
 function loadmemo() {
    $("#bonmoon").empty();
-   bonmoon.innerHTML = "<p>20200502 탭 생성</p><hr>"
+   bonmoon.innerHTML = "<p>20200502 탭 생성</p><hr>\
+   <p>20200509 발광 문서 추가. 고렙 위주로.</p><hr>"
 }
