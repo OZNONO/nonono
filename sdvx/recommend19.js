@@ -2,7 +2,7 @@
         "9TH5IN [ MXM 19 ]",
         "ANGER of the GOD [ MXM 19 ]",
         "ENDYMION [ MXM 19 ]",
-        "Ghost Family Living In Grabeyard [ MXM 19 ]",
+        "Ghost Family Living In Graveyard [ MXM 19 ]",
         "Lancelot ～Flame of the Rebellion～ [ MXM 19 ]",
         "OUTERHEΛVEN [ MXM 19 ]",
         "ЯeviveR [ MXM 19 ]",
