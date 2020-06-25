@@ -476,8 +476,14 @@ var songlists17 = [
   "The world of sound [ EXH 17 ]",
   "V.I.P. [ EXH 17 ]",
   "金縛りの逢を [ EXH 17 ]",
-  "大宇宙ステージ [ EXH 17 ]"
+  "大宇宙ステージ [ EXH 17 ]",
 
+  "EGOISM -Rebuild- [ MXM 17 ]",
+  "Still Lonesome [ MXM 17 ]",
+  "Bioslaves [ MXM 17 ]",
+  "BLAZE∞BREEZE [ MXM 17 ] ",
+  "The First Step [ MXM 17 ]",
+  "ラブキラ☆スプラッシュ [ MXM 17 ]"
 ];
 
 xi = songlists17.length; // 곡 갯수

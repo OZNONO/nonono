@@ -333,8 +333,13 @@ var songlists18 = [
   "croiX [ INF 18 ]",
   "FLOWER REDALiCE Remix [ INF 18 ]",
   "Max Burning!! [ INF 18 ]",
-  "冥 Rockin' SWING REMIX [ INF 18 ]"
+  "冥 Rockin' SWING REMIX [ INF 18 ]",
 
+"Mynarco (Nagomu 2Step Remix) [ MXM 18 ]",
+"L9 [ MXM 18 ]",
+"Bolérrot [ MXM 18 ]",
+"MeteorA [ MXM 18 ]",
+"Our Love [ MXM 18 ]"
 ];
 
 xi = songlists18.length; // 곡 갯수
