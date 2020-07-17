@@ -339,7 +339,10 @@ var songlists18 = [
 "L9 [ MXM 18 ]",
 "Bolérrot [ MXM 18 ]",
 "MeteorA [ MXM 18 ]",
-"Our Love [ MXM 18 ]"
+"Our Love [ MXM 18 ]",
+
+"αρχη [ MXM 18 ]",
+"Nebulas [ MXM 18 ]"
 ];
 
 xi = songlists18.length; // 곡 갯수

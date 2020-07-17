@@ -483,7 +483,12 @@ var songlists17 = [
   "Bioslaves [ MXM 17 ]",
   "BLAZE∞BREEZE [ MXM 17 ] ",
   "The First Step [ MXM 17 ]",
-  "ラブキラ☆スプラッシュ [ MXM 17 ]"
+  "ラブキラ☆スプラッシュ [ MXM 17 ]",
+
+  "御伽噺に幕切れを [ MXM 17 ]",
+  "逆さま♥シンデレラパレード [ MXM 17 ]",
+  "ふ・れ・ん・ど・し・た・い（WEREHEREMIX) [ MXM 17 ]",
+  "卑弥呼[ EXH 17 ]"
 ];
 
 xi = songlists17.length; // 곡 갯수

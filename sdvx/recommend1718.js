@@ -815,9 +815,28 @@ var songlists17 = [
   "The world of sound [ EXH 17 ]",
   "V.I.P. [ EXH 17 ]",
   "金縛りの逢を [ EXH 17 ]",
-  "大宇宙ステージ [ EXH 17 ]"
+  "大宇宙ステージ [ EXH 17 ]",
 
+    "EGOISM -Rebuild- [ MXM 17 ]",
+    "Still Lonesome [ MXM 17 ]",
+    "Bioslaves [ MXM 17 ]",
+    "BLAZE∞BREEZE [ MXM 17 ] ",
+    "The First Step [ MXM 17 ]",
+    "ラブキラ☆スプラッシュ [ MXM 17 ]",
 
+    "御伽噺に幕切れを [ MXM 17 ]",
+    "逆さま♥シンデレラパレード [ MXM 17 ]",
+    "ふ・れ・ん・ど・し・た・い（WEREHEREMIX) [ MXM 17 ]",
+    "卑弥呼[ EXH 17 ]",
+
+    "Mynarco (Nagomu 2Step Remix) [ MXM 18 ]",
+    "L9 [ MXM 18 ]",
+    "Bolérrot [ MXM 18 ]",
+    "MeteorA [ MXM 18 ]",
+    "Our Love [ MXM 18 ]",
+
+    "αρχη [ MXM 18 ]",
+    "Nebulas [ MXM 18 ]"
 ];
 
 var songlists1718 = new Array;
