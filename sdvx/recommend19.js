@@ -68,7 +68,8 @@
         "大宇宙ステージ [ GRV 19 ]",
         "Ganymede kamome mix [ INF 19 ]",
 
-        "卑弥呼 [ MXM 19 ]"
+        "卑弥呼 [ MXM 19 ]",
+        "INF-B《L-aste-R》 [ VVD 19 ]"
       ];
 
       xi = songlists19.length; // 곡 갯수

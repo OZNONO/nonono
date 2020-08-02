@@ -836,7 +836,17 @@ var songlists17 = [
     "Our Love [ MXM 18 ]",
 
     "αρχη [ MXM 18 ]",
-    "Nebulas [ MXM 18 ]"
+    "Nebulas [ MXM 18 ]",
+
+    "POSSESSION (Gowrock Remix) [ MXM 17 ]",
+    "DEEP PSYCHEDELIC STRIKER [ MXM 17 ]",
+    "floorkiller [ MXM 17 ]",
+    "DO-IT-AMA-SITE!!! [ MXM 17 ]",
+    "Sparkle Smilin' [ MXM 17 ]",
+    "Re：Elemental Creation [ MXM 18 ]",
+    "Icho-Go! DX Pancake! [ MXM 18 ]",
+    "おはようからおやすみまでかまってポメポメ [ MXM 18 ]"
+
 ];
 
 var songlists1718 = new Array;

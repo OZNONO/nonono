@@ -342,7 +342,12 @@ var songlists18 = [
 "Our Love [ MXM 18 ]",
 
 "αρχη [ MXM 18 ]",
-"Nebulas [ MXM 18 ]"
+"Nebulas [ MXM 18 ]",
+
+"Re：Elemental Creation [ MXM 18 ]",
+"Icho-Go! DX Pancake! [ MXM 18 ]",
+"おはようからおやすみまでかまってポメポメ [ MXM 18 ]"
+
 ];
 
 xi = songlists18.length; // 곡 갯수
