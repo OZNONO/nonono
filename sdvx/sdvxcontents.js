@@ -16,7 +16,7 @@ function loadrec() {
    bonmoon.innerHTML = "<p> 직접 고른 추천곡들을 모았습니다.</p>\
      <a href=\"./rec18.html\" class=\"btn btn-default border\">엄선된 18레벨 곡 추천</a><br><br>\
      <a href=\"./rec17.html\" class=\"btn btn-secondary border\">엄선된 17레벨 곡 추천</a><br><br>\
-     <a href=\"./recBG.html\" class=\"btn btn-default border\">발광</a><br><br></p>\
+     <a href=\"#\" class=\"btn btn-default border\">발광(폐쇄됨)</a><br><br></p>\
      <hr>"
 
 };
