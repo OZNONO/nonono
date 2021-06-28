@@ -23,5 +23,11 @@ function loadoz() {
 
 function loadmemo() {
    $("#bonmoon").empty();
-   bonmoon.innerHTML = "<p>메모입니다. 갹.</p>"
+   bonmoon.innerHTML = "<p>메모입니다. 갹.</p>\
+   <p>해본 게임들</p>\
+   <p>리듬: SDVX, popn, iidx, jubeat, DJMAX, MUSEDASH, o!s@u</p>\
+   <p>온라인: -메-, 사이퍼즈, 이터널 리턴, </p>\
+   <p>콘솔: 몬스터 헌터 라이즈, 네크로댄서, Celeste, 라비리비</p>\
+   <p>퍼즐: the witness, Baba is you</p>\
+   <p>갱신하겠습니다. 여기다 뭔가 쓰려고.</p>"
 }
