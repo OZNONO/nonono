@@ -1,18 +1,18 @@
 var songlists20 = [
-
-"666 [MXM 20]",
-"ΣgØ [MXM 20]",
-"* Erm, could it be a Spatiotemporal ShockWAVE Syndrome...? [MXM 20]",
-"ΣmbryØ [MXM 20]",
-"*Feels Seasickness...* [MXM 20]",
-"FIN4LE ～終止線の彼方へ～ [MXM 20]",
-"HE4VEN ～天国へようこそ～ [MXM 20]",
-"I [MXM 20]",
-"iLLness LiLin [MXM 20]",
-"WHITEOUT [MXM 20]",
-"Xronièr [MXM 20]",
-"Lachryma《Re:Queen'M》 [GRV 20]",
-
+  "666 [ MXM 20 ]",
+  "ΣgØ [ MXM 20 ]",
+  "* Erm, could it be a Spatiotemporal\n　ShockWAVE Syndrome...? [ MXM 20 ]",
+  "MAYHEM [ MXM 20 ]",
+  "VVelcome!! [ MXM 20 ]",
+  "ΣmbryØ [ MXM 20 ]",
+  "*Feels Seasickness...* [ MXM 20 ]",
+  "FIN4LE ～終止線の彼方へ～ [ MXM 20 ]",
+  "HE4VEN ～天国へようこそ～ [ MXM 20 ]",
+  "I [ MXM 20 ]",
+  "iLLness LiLin [ MXM 20 ]",
+  "WHITEOUT [ MXM 20 ]",
+  "Xronièr [ MXM 20 ]",
+  "Lachryma《Re:Queen'M》 [ GRV 20 ]"
 ]
 
 xi = songlists20.length; // 곡 갯수
