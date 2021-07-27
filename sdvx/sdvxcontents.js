@@ -26,5 +26,6 @@ function loadmemo() {
    $("#bonmoon").empty();
    bonmoon.innerHTML = "<p>20200502 탭 생성</p><hr>\
    <p>20200509 발광 문서 추가. 고렙 위주로.</p><hr>\
-   <p>닫음. 퍼얼허싈?</p>"
+   <p>닫음. 퍼얼허싈?</p><hr>\
+   <p><a href=\"./PUCed18.html\" class=\"btn btn-default border\">18PUC기록</a><br><br></p>"
 }
