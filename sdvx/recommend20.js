@@ -1,4 +1,10 @@
 var songlists20 = [
+  "Bl∞min' [ MXM 20 ]",
+  "MixxioN [ MXM 20 ]",
+  "《Re:miniscence》 [ MXM 20 ]",
+  "XHRONOXAPSULΞ [ MXM 20 ]",
+  "You Are My Best RivaL!! [ MXM 20 ]",
+  "いまきみに [ MXM 20 ]",
   "666 [ MXM 20 ]",
   "ΣgØ [ MXM 20 ]",
   "* Erm, could it be a Spatiotemporal\n　ShockWAVE Syndrome...? [ MXM 20 ]",
@@ -13,7 +19,7 @@ var songlists20 = [
   "WHITEOUT [ MXM 20 ]",
   "Xronièr [ MXM 20 ]",
   "Lachryma《Re:Queen'M》 [ GRV 20 ]"
-]
+];
 
 xi = songlists20.length; // 곡 갯수
 xxi.innerHTML = "전체 곡 "+ xi +"곡";
