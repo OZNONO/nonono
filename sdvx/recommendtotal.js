@@ -1419,6 +1419,9 @@ function input() {
 
   $("ul").empty();
   var howmany = document.getElementById("select1").value;
+    if (sival === 0) {
+      document.getElementById("ul").innerHTML = "Dyscontrolled galaxy!!";
+    } else {
     for(i=0;i<howmany;i++){
       var newDiv = document.createElement('div');
       newDiv.id = "result"+i
@@ -1426,6 +1429,7 @@ function input() {
       newDiv.appendChild(newContent);
       document.getElementById("ul").appendChild(newDiv);
     }
+  }
   message2.innerHTML = "마음에 들지 않는다면 재추첨 버튼을 눌러주세요"
   cc.innerHTML = "재추첨"
 
