@@ -2,6 +2,9 @@ jQuery(".nav-link").hover( function () { jQuery(this).addClass("active"); }, fun
 function loadran() {
  $("#bonmoon").empty();
  bonmoon.innerHTML = "<p>곡 선택장애가 왔거나 마지막 코인 고렙하고싶을때 등등 눌러주세욤</p>\
+ <a href=\"./recommendtotal.html\" class=\"btn btn-secondary border\">무작위 곡 추천</a><br><br>\
+ <hr>\
+ <p>▽ 더 이상 아무것도 아님 ▽</p>\
  <a href=\"./recommend20.html\" class=\"btn btn-default border\">20레벨 무작위 곡 추천</a><br><br>\
  <a href=\"./recommend19.html\" class=\"btn btn-secondary border\">19레벨 무작위 곡 추천</a><br><br>\
  <a href=\"./recommend18.html\" class=\"btn btn-default border\">18레벨 무작위 곡 추천</a><br><br>\
