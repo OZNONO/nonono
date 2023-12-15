@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        .button {
+            font-size: 20px;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+<body>
+
+<button id="startButton107" class="button">라라 강줄기 (108초)</button>
+<button id="startButton60" class="button">에르다 파운틴 (58초)</button>
+<p id="timer">파운틴 쿨감/리필 포함해 대충 58초</p>
+
+<script>
+let countdownInterval;
+
+document.getElementById('startButton107').addEventListener('click', function() {
+    startCountdown(107, '강줄기 108초 끝남');
+});
+
+document.getElementById('startButton60').addEventListener('click', function() {
+    startCountdown(57, '파운틴 58초 끝남');
+});
+
+function startCountdown(duration, endMessage) {
+    if (countdownInterval) {
+        clearInterval(countdownInterval); // 기존 타이머 중지
+    }
+
+    let remainingTime = duration;
+    const timerElement = document.getElementById('timer');
+
+    countdownInterval = setInterval(function() {
+        timerElement.textContent = `${remainingTime}초 남음`;
+
+        if (remainingTime <= 0) {
+            clearInterval(countdownInterval);
+            playBeepSound();
+            timerElement.textContent = endMessage;
+            countdownInterval = null;
+        }
+
+        remainingTime--;
+    }, 1000);
+}
+
+function playBeepSound() {
+    const audio = new Audio('GOWI sound mod.mp3'); // 소리 파일 경로
+    audio.play();
+}
+</script>
+
+</body>
+</html>
