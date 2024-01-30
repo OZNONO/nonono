@@ -1,4 +1,5 @@
 var songlists20 = [
+  "Λkasha (20)",
   "APØCALYPSE RAY (20)",
   "Bl∞min' (20)",
   "HeaveИ's Rain (20)",
@@ -10,7 +11,7 @@ var songlists20 = [
   "いまきみに (20)",
   "666 (20)",
   "ΣgØ (20)",
-  "* Erm, could it be a Spatiotemporal ShockWAVE Syndrome...? (20)",
+  "* Erm, could it be a Spatiotemporal　ShockWAVE Syndrome...? (20)",
   "MAYHEM (20)",
   "VVelcome!! (20)",
   "ΣmbryØ (20)",
