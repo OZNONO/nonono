@@ -1510,3 +1510,12 @@ document.getElementById('copy-btn').addEventListener('click', function() {
     });
   });
 });
+
+document.getElementById('copyButton').addEventListener('click', function() {
+  const ulContent = document.getElementById('ul').innerText;
+  navigator.clipboard.writeText(ulContent).then(() => {
+      alert('클립보드에 복사되었습니다!');
+  }).catch(err => {
+      console.error('복사 실패:', err);
+  });
+});
