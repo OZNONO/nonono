@@ -5,10 +5,14 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <style>
-          #select1 {margin-right : 20px;}
           header {margin : 50px;}
+          #ul {
+            max-width: 400px;
+            margin: 0;
+          }
         </style>
     </head>
     <body class="container">
@@ -37,7 +41,7 @@
           <option value="9">9</option>
           <option value="10">10</option>
         </select>
-        <button onclick="input()" class="btn btn-sm btn-primary row" id="cc">추첨</button><br>
+        <button onclick="input()" class="btn btn-sm btn-primary row ml-3" id="cc">추첨</button><button id="copy-btn" class="btn btn-sm btn-secondary row ml-4">캡쳐보드에 복사</button><br>
           <input type="checkbox" id="checkbox1" value="17"> 17
           <input type="checkbox" id="checkbox2" value="18" checked> 18
           <input type="checkbox" id="checkbox3" value="19"> 19
@@ -45,7 +49,6 @@
         <ul id="ul">
 
         </ul>
-
       <script src="./recommendtotal.js"></script>
 
 

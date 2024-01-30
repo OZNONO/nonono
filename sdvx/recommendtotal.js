@@ -1461,7 +1461,7 @@ var songlists20 = [
 var songliststotal = new Array;
 songliststotal = songlists18.concat(songlists19).concat(songlists17).concat(songlists20);
 xi = songliststotal.length; // 곡 갯수
-xxi.innerHTML = "전체 곡 "+ xi +"곡";
+xxi.innerHTML = "전체 곡 수: "+ xi +"곡";
 
 function input() {
   const songlistcheck = [];
@@ -1500,3 +1500,13 @@ function input() {
   cc.innerHTML = "재추첨"
 
 };
+
+document.getElementById('copy-btn').addEventListener('click', function() {
+  html2canvas(document.getElementById('ul')).then(canvas => {
+    canvas.toBlob(function(blob) {
+      navigator.clipboard.write([
+        new ClipboardItem({'image/png': blob})
+      ]);
+    });
+  });
+});
