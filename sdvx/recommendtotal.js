@@ -1459,56 +1459,40 @@ var songlists20 = [
 ];
 
 var songliststotal = new Array;
-var songlinkstotal = new Array; // URL 주소를 담을 새 배열
-// songlists 배열을 결합
 songliststotal = songlists18.concat(songlists19).concat(songlists17).concat(songlists20);
-// songlinks 배열을 결합
-songlinkstotal = songlinks18.concat(songlinks19).concat(songlinks17).concat(songlinks20);
-
 xi = songliststotal.length; // 곡 갯수
 xxi.innerHTML = "전체 곡 수: "+ xi +"곡";
 
 function input() {
   const songlistcheck = [];
-  const songlinkcheck = []; // 선택된 노래의 URL을 저장할 배열
+      if (document.getElementById("checkbox1").checked) {
+        songlistcheck.push(...songlists17);
+    }
 
-  if (document.getElementById("checkbox1").checked) {
-    songlistcheck.push(...songlists17);
-    songlinkcheck.push(...songlinks17);
-  }
+    if (document.getElementById("checkbox2").checked) {
+        songlistcheck.push(...songlists18);
+    }
 
-  if (document.getElementById("checkbox2").checked) {
-    songlistcheck.push(...songlists18);
-    songlinkcheck.push(...songlinks18);
-  }
+    if (document.getElementById("checkbox3").checked) {
+        songlistcheck.push(...songlists19);
+    }
 
-  if (document.getElementById("checkbox3").checked) {
-    songlistcheck.push(...songlists19);
-    songlinkcheck.push(...songlinks19);
-  }
+    if (document.getElementById("checkbox4").checked) {
+        songlistcheck.push(...songlists20);
+    }
 
-  if (document.getElementById("checkbox4").checked) {
-    songlistcheck.push(...songlists20);
-    songlinkcheck.push(...songlinks20);
-  }
-
-  sival = songlistcheck.length;
+  sival = songlistcheck.length
 
   $("ul").empty();
   var howmany = document.getElementById("select1").value;
-  if (sival === 0) {
-    document.getElementById("ul").innerHTML = "Dyscontrolled galaxy!!";
-  } else {
+    if (sival === 0) {
+      document.getElementById("ul").innerHTML = "Dyscontrolled galaxy!!";
+    } else {
     for(i=0;i<howmany;i++){
-      var index = Math.floor(Math.random()*(sival-1));
       var newDiv = document.createElement('div');
-      newDiv.id = "result"+i;
-      // a 태그 생성 및 href 속성 설정
-      var newLink = document.createElement('a');
-      newLink.href = songlinkcheck[index]; // URL 설정
-      newLink.target = "_blank"; // 새 탭에서 링크 열기
-      newLink.textContent = songlistcheck[index]; // 노래 제목 텍스트 설정
-      newDiv.appendChild(newLink);
+      newDiv.id = "result"+i
+      var newContent = document.createTextNode(songlistcheck[Math.floor(Math.random()*(sival-1))]);
+      newDiv.appendChild(newContent);
       document.getElementById("ul").appendChild(newDiv);
     }
   }
