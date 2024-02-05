@@ -1459,54 +1459,68 @@ var songlists20 = [
 ];
 
 var songliststotal = new Array;
+var songlinkstotal = new Array; // URL 주소를 담을 새 배열
+// songlists 배열을 결합
 songliststotal = songlists18.concat(songlists19).concat(songlists17).concat(songlists20);
+// songlinks 배열을 결합
+songlinkstotal = songlinks18.concat(songlinks19).concat(songlinks17).concat(songlinks20);
+
 xi = songliststotal.length; // 곡 갯수
 xxi.innerHTML = "전체 곡 수: "+ xi +"곡";
 
 function input() {
   const songlistcheck = [];
-      if (document.getElementById("checkbox1").checked) {
-        songlistcheck.push(...songlists17);
-    }
+  const songlinkcheck = []; // 선택된 노래의 URL을 저장할 배열
 
-    if (document.getElementById("checkbox2").checked) {
-        songlistcheck.push(...songlists18);
-    }
+  if (document.getElementById("checkbox1").checked) {
+    songlistcheck.push(...songlists17);
+    songlinkcheck.push(...songlinks17);
+  }
 
-    if (document.getElementById("checkbox3").checked) {
-        songlistcheck.push(...songlists19);
-    }
+  if (document.getElementById("checkbox2").checked) {
+    songlistcheck.push(...songlists18);
+    songlinkcheck.push(...songlinks18);
+  }
 
-    if (document.getElementById("checkbox4").checked) {
-        songlistcheck.push(...songlists20);
-    }
+  if (document.getElementById("checkbox3").checked) {
+    songlistcheck.push(...songlists19);
+    songlinkcheck.push(...songlinks19);
+  }
 
-  sival = songlistcheck.length
+  if (document.getElementById("checkbox4").checked) {
+    songlistcheck.push(...songlists20);
+    songlinkcheck.push(...songlinks20);
+  }
+
+  sival = songlistcheck.length;
 
   $("ul").empty();
   var howmany = document.getElementById("select1").value;
-    if (sival === 0) {
-      document.getElementById("ul").innerHTML = "Dyscontrolled galaxy!!";
-    } else {
+  if (sival === 0) {
+    document.getElementById("ul").innerHTML = "Dyscontrolled galaxy!!";
+  } else {
     for(i=0;i<howmany;i++){
+      var index = Math.floor(Math.random()*(sival-1));
       var newDiv = document.createElement('div');
-      newDiv.id = "result"+i
-      var newContent = document.createTextNode(songlistcheck[Math.floor(Math.random()*(sival-1))]);
-      newDiv.appendChild(newContent);
+      newDiv.id = "result"+i;
+      // a 태그 생성 및 href 속성 설정
+      var newLink = document.createElement('a');
+      newLink.href = songlinkcheck[index]; // URL 설정
+      newLink.target = "_blank"; // 새 탭에서 링크 열기
+      newLink.textContent = songlistcheck[index]; // 노래 제목 텍스트 설정
+      newDiv.appendChild(newLink);
       document.getElementById("ul").appendChild(newDiv);
     }
   }
   message2.innerHTML = "마음에 들지 않는다면 재추첨 버튼을 눌러주세요"
   cc.innerHTML = "재추첨"
-
 };
 
-document.getElementById('copy-btn').addEventListener('click', function() {
-  html2canvas(document.getElementById('ul')).then(canvas => {
-    canvas.toBlob(function(blob) {
-      navigator.clipboard.write([
-        new ClipboardItem({'image/png': blob})
-      ]);
-    });
+document.getElementById('copyButton').addEventListener('click', function() {
+  const ulContent = document.getElementById('ul').innerText;
+  navigator.clipboard.writeText(ulContent).then(() => {
+      alert('클립보드에 복사되었습니다!');
+  }).catch(err => {
+      console.error('복사 실패:', err);
   });
 });
