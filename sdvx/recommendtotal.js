@@ -1498,7 +1498,18 @@ function input() {
   }
   message2.innerHTML = "마음에 들지 않는다면 재추첨 버튼을 눌러주세요"
   cc.innerHTML = "재추첨"
+
 };
+
+document.getElementById('copy-btn').addEventListener('click', function() {
+  html2canvas(document.getElementById('ul')).then(canvas => {
+    canvas.toBlob(function(blob) {
+      navigator.clipboard.write([
+        new ClipboardItem({'image/png': blob})
+      ]);
+    });
+  });
+});
 
 document.getElementById('copyButton').addEventListener('click', function() {
   const ulContent = document.getElementById('ul').innerText;
