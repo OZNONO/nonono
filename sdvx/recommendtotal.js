@@ -68,3 +68,26 @@ document.getElementById('copyButton').addEventListener('click', function() {
       console.error('복사 실패:', err);
   });
 });
+
+years18 = songlists18.length;
+function seededRandom(seed, min, max) {
+  // 시드를 사용하여 난수 생성
+  const seedFunction = (seed) => {
+      seed = (seed * 9301 + 49297) % 233280;
+      return seed / 233280;
+  };
+  const random = seedFunction(seed);
+  return Math.floor(min + random * (max - min + 1));
+}
+
+function getTodaysSeed() {
+  const today = new Date();
+  return today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+}
+
+// 사용
+const min = 0; // 최소값
+const max = years18 - 1; // 최대값
+const seed = getTodaysSeed(); // 오늘의 날짜를 시드로 변환
+const randomNumber = seededRandom(seed, min, max);
+document.getElementById('ul').textContent = "오늘의 추천곡 " + songlists18[randomNumber];
