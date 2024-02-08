@@ -99,15 +99,32 @@ const randomNumber18 = seededRandom(seed, min, max18);
 const randomNumber19 = seededRandom(seed, min, max19);
 const ulElement = document.getElementById('ul');
 ulElement.innerHTML = '';
-const lines = [
-  "오늘의 추천곡",
-  songlists17[randomNumber17],
-  songlists18[randomNumber18],
-  songlists19[randomNumber19]
-];
-lines.forEach((line) => {
-  const div = document.createElement('div'); // 새 div 요소 생성
-  div.textContent = line; // 텍스트 내용 설정
-  ulElement.appendChild(div); // 생성된 div를 ul 요소의 자식으로 추가
+
+// "오늘의 추천곡" 제목을 추가
+const titleDiv = document.createElement('div');
+titleDiv.textContent = "오늘의 추천곡";
+ulElement.appendChild(titleDiv);
+
+// 각 연도별 추천곡과 링크를 추가
+const songlists = [songlists17, songlists18, songlists19];
+const links = [links17, links18, links19];
+const randomNumbers = [randomNumber17, randomNumber18, randomNumber19];
+
+songlists.forEach((songlist, index) => {
+  const song = songlist[randomNumbers[index]];
+  const link = links[index][randomNumbers[index]];
+
+  // 새로운 div 요소 생성
+  const songDiv = document.createElement('div');
+  
+  // 하이퍼링크(a) 요소 생성 및 설정
+  const songLink = document.createElement('a');
+  songLink.href = link; // 링크 설정
+  songLink.textContent = song; // 텍스트 내용 설정
+  songLink.target = "_blank"; // 링크를 새 탭에서 열도록 설정
+
+  // 하이퍼링크를 div에 추가하고, 이 div를 ul 요소의 자식으로 추가
+  songDiv.appendChild(songLink);
+  ulElement.appendChild(songDiv);
 });
 //오늘의 추천곡 끝
