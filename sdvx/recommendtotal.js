@@ -69,7 +69,10 @@ document.getElementById('copyButton').addEventListener('click', function() {
   });
 });
 
+//이하 오늘의 추천곡
+years17 = songlists17.length;
 years18 = songlists18.length;
+years19 = songlists19.length;
 function seededRandom(seed, min, max) {
   // 시드를 사용하여 난수 생성
   const seedFunction = (seed) => {
@@ -86,8 +89,25 @@ function getTodaysSeed() {
 }
 
 // 사용
-const min = 0; // 최소값
-const max = years18 - 1; // 최대값
+const min = 0; 
+const max17 = years17 - 1;
+const max18 = years18 - 1;
+const max19 = years19 - 1;
 const seed = getTodaysSeed(); // 오늘의 날짜를 시드로 변환
-const randomNumber = seededRandom(seed, min, max);
-document.getElementById('ul').textContent = "오늘의 추천곡 " + songlists18[randomNumber];
+const randomNumber17 = seededRandom(seed, min, max17);
+const randomNumber18 = seededRandom(seed, min, max18);
+const randomNumber19 = seededRandom(seed, min, max19);
+const ulElement = document.getElementById('ul');
+ulElement.innerHTML = '';
+const lines = [
+  "오늘의 추천곡",
+  songlists17[randomNumber17],
+  songlists18[randomNumber18],
+  songlists19[randomNumber19]
+];
+lines.forEach((line) => {
+  const div = document.createElement('div'); // 새 div 요소 생성
+  div.textContent = line; // 텍스트 내용 설정
+  ulElement.appendChild(div); // 생성된 div를 ul 요소의 자식으로 추가
+});
+//오늘의 추천곡 끝
