@@ -102,7 +102,7 @@ ulElement.innerHTML = '';
 
 // "오늘의 추천곡" 제목을 추가
 const titleDiv = document.createElement('div');
-titleDiv.textContent = "오늘의 추천곡";
+titleDiv.textContent = seed + " 오늘의 추천곡";
 ulElement.appendChild(titleDiv);
 
 // 각 연도별 추천곡과 링크를 추가
