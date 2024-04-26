@@ -128,3 +128,27 @@ songlists.forEach((songlist, index) => {
   ulElement.appendChild(songDiv);
 });
 //오늘의 추천곡 끝
+
+//검색기능함수
+function searchSongs() {
+  const input = document.getElementById('searchInput').value.toLowerCase();
+  const resultsList = document.getElementById('ul-search');
+  resultsList.innerHTML = ''; // 결과 목록 초기화
+
+  // 네 개의 배열과 해당 링크를 순회하면서 검색
+  [songlists17, songlists18, songlists19, songlists20].forEach((list, index) => {
+      const links = [links17, links18, links19, links20][index]; // 링크 배열 선택
+      const results = list.filter(song => song.toLowerCase().includes(input));
+      
+      // 검색된 결과를 ul 요소에 추가
+      results.forEach((song, i) => {
+          const songIndex = list.indexOf(song); // 곡의 인덱스를 찾음
+          const songLink = links[songIndex]; // 해당 인덱스의 링크를 가져옴
+
+          const li = document.createElement('li');
+          li.classList.add('list-group-item');
+          li.innerHTML = `<a href="${songLink}" target="_blank">${song}</a>`; // 링크와 함께 곡명을 설정
+          resultsList.appendChild(li);
+      });
+  });
+}

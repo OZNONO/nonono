@@ -52,6 +52,17 @@
         <ul id="ul">
 
         </ul>
+        <div class="container py-5">
+          <!-- 검색 폼 -->
+          <form class="d-flex justify-content-center" onsubmit="searchSongs(); return false;">
+              <!-- 검색 입력 필드 -->
+              <input class="form-control me-2" type="search" id="searchInput" placeholder="Dyscontrolled Galaxy" aria-label="Search">
+              <!-- 검색 버튼 -->
+              <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+          <!-- 검색 결과를 표시할 ul -->
+          <ul id="ul-search" class="list-group mt-4"></ul>
+        </div>
         <script src="./recommenddata.js"></script>
         <script src="./recommendtotal.js"></script>
 
