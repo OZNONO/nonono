@@ -1,14 +1,17 @@
 var songlists20 = [
   "Λkasha (20)",
   "APØCALYPSE RAY (20)",
-  "Bl∞min' (20)",
+  "Don't you dare play GOD (20)",
+  "{ eXLIPXe } (20)",
   "HeaveИ's Rain (20)",
-  "MixxioN (20)",
-  "《Re:miniscence》 (20)",
+  "NEMSYS ARENA World Hexathlon (20)",
+  "Bl∞min' (20)",
   "SuddeИDeath (20)",
-  "XHRONOXAPSULΞ (20)",
   "You Are My Best RivaL!! (20)",
   "いまきみに (20)",
+  "MixxioN (20)",
+  "《Re:miniscence》 (20)",
+  "XHRONOXAPSULΞ (20)",
   "666 (20)",
   "ΣgØ (20)",
   "* Erm, could it be a Spatiotemporal　ShockWAVE Syndrome...? (20)",
@@ -22,7 +25,8 @@ var songlists20 = [
   "iLLness LiLin (20)",
   "WHITEOUT (20)",
   "Xronièr (20)",
-  "Lachryma《Re:Queen'M》 (20)"
+  "Lachryma《Re:Queen'M》 (20)",
+  "Sayonara Planet Wars (20)"
 ];
 
 xi = songlists20.length; // 곡 갯수
