@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>SDVX RANDOM SELECT</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <p class="eyebrow">NONO / SOUND VOLTEX</p>
+      <h1>RANDOM<br><span>SELECT</span></h1>
+      <p class="intro">레벨을 고르고, 오늘 플레이할 채보를 중복 없이 뽑아보세요.</p>
+    </header>
+
+    <section class="panel controls" aria-labelledby="settings-title">
+      <div class="section-heading">
+        <div>
+          <p class="step">01 / LEVEL</p>
+          <h2 id="settings-title">추천 범위</h2>
+        </div>
+        <div class="level-actions">
+          <button type="button" class="text-button" id="select-all">전체 선택</button>
+          <button type="button" class="text-button" id="clear-all">전체 해제</button>
+        </div>
+      </div>
+
+      <div class="level-grid" id="level-options">
+        <label class="level-card level-17">
+          <input type="checkbox" name="level" value="17" checked>
+          <span class="level-number">17</span><span class="level-count" data-count="17">—곡</span>
+        </label>
+        <label class="level-card level-18">
+          <input type="checkbox" name="level" value="18" checked>
+          <span class="level-number">18</span><span class="level-count" data-count="18">—곡</span>
+        </label>
+        <label class="level-card level-19">
+          <input type="checkbox" name="level" value="19">
+          <span class="level-number">19</span><span class="level-count" data-count="19">—곡</span>
+        </label>
+        <label class="level-card level-20">
+          <input type="checkbox" name="level" value="20">
+          <span class="level-number">20</span><span class="level-count" data-count="20">—곡</span>
+        </label>
+      </div>
+
+      <div class="draw-row">
+        <label class="count-field" for="recommend-count">
+          <span class="step">02 / COUNT</span>
+          <span class="input-wrap"><input id="recommend-count" type="number" min="1" value="5" inputmode="numeric"><span>곡</span></span>
+        </label>
+        <button type="button" class="draw-button" id="draw-button" disabled>
+          <span>추천 시작</span><span aria-hidden="true">↗</span>
+        </button>
+      </div>
+      <p class="availability" id="availability">데이터를 불러오는 중입니다.</p>
+      <p class="message" id="message" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="results-section" aria-labelledby="results-title">
+      <div class="section-heading results-heading">
+        <div><p class="step">03 / RESULTS</p><h2 id="results-title">추천 결과</h2></div>
+        <button type="button" class="text-button" id="copy-results" hidden>결과 복사</button>
+      </div>
+      <ol class="results" id="results">
+        <li class="empty-state">추천 버튼을 누르면 이곳에 결과가 표시됩니다.</li>
+      </ol>
+    </section>
+
+    <footer>
+      <p id="data-meta">데이터 확인 중</p>
+      <p>곡 정보 출처: <a href="https://sdvx.in/" target="_blank" rel="noopener noreferrer">SDVX譜面保管所</a></p>
+    </footer>
+  </main>
+</body>
+</html>
