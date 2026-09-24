@@ -25,6 +25,9 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install image dependency
+        run: python -m pip install --disable-pip-version-check -r sdvx/recommend_auto/requirements.txt
+
       - name: Fetch and validate song data
         run: |
           python sdvx/recommend_auto/scripts/update_sdvx_data.py
@@ -32,13 +35,15 @@ jobs:
 
       - name: Commit changed data only
         run: |
-          DATA_FILE="sdvx/recommend_auto/data/sdvx_songs.json"
-          if git diff --quiet -- "$DATA_FILE"; then
+          DATA_JSON="sdvx/recommend_auto/data/sdvx_songs.json"
+          DATA_SCRIPT="sdvx/recommend_auto/data/sdvx_songs.js"
+          JACKET_DIR="sdvx/recommend_auto/assets/jackets"
+          if [ -z "$(git status --porcelain -- "$DATA_JSON" "$DATA_SCRIPT" "$JACKET_DIR")" ]; then
             echo "Song data is unchanged; no commit created."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -- "$DATA_FILE"
+          git add -- "$DATA_JSON" "$DATA_SCRIPT" "$JACKET_DIR"
           git commit -m "chore(sdvx): update song data"
           git push
