@@ -53,6 +53,9 @@ class GeneratedDataTests(unittest.TestCase):
         self.assertIn("new URL(song.jacketPath, document.baseURI)", script)
         self.assertIn("context.drawImage(image", script)
         self.assertIn('row.querySelector(".song-meta")', script)
+        self.assertIn('title.textContent = song.title', script)
+        self.assertIn('`[${song.title}](${song.url}) [ ${chartLabel} ]`', script)
+        self.assertNotIn("곡을 중복 없이 추천했습니다.", script)
 
 
 if __name__ == "__main__":

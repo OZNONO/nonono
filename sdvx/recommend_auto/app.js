@@ -52,7 +52,10 @@ function sampleWithoutReplacement(items, count) {
 }
 
 function songCopyLine(song) {
-  return `${song.title} (${song.level})`;
+  const chartLabel = [song.chartType, displayDifficulty(song)].filter((value) => value !== "" && value != null).join(" ");
+  return song.url
+    ? `[${song.title}](${song.url}) [ ${chartLabel} ]`
+    : `${song.title} [ ${chartLabel} ]`;
 }
 
 function displayDifficulty(song) {
@@ -92,7 +95,6 @@ function makeSongRow(song) {
 
   const info = document.createElement("div");
   info.className = "song-info";
-  const label = songCopyLine(song);
   let title;
   if (song.url) {
     title = document.createElement("a");
@@ -104,7 +106,7 @@ function makeSongRow(song) {
     title.classList.add("no-link");
   }
   title.classList.add("song-title");
-  title.textContent = label;
+  title.textContent = song.title;
 
   const meta = document.createElement("div");
   meta.className = "song-meta";
@@ -159,7 +161,7 @@ function drawSongs() {
       return;
     }
     renderSongs(sampleWithoutReplacement(candidates, count));
-    elements.status.textContent = `${count}곡을 중복 없이 추천했습니다.`;
+    elements.status.textContent = "";
   }
 
   elements.message.textContent = "마음에 들지 않는다면 재추첨 버튼을 눌러주세요";
@@ -277,10 +279,10 @@ function searchSongs(event) {
       link.href = song.url;
       link.target = "_blank";
       link.rel = "noopener noreferrer";
-      link.textContent = songCopyLine(song);
+      link.textContent = song.title;
       item.append(link);
     } else {
-      item.textContent = `${songCopyLine(song)} · 링크 없음`;
+      item.textContent = `${song.title} · 링크 없음`;
     }
     elements.searchResults.append(item);
   });
