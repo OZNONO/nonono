@@ -53,9 +53,7 @@ function sampleWithoutReplacement(items, count) {
 
 function songCopyLine(song) {
   const chartLabel = [song.chartType, displayDifficulty(song)].filter((value) => value !== "" && value != null).join(" ");
-  return song.url
-    ? `[${song.title}](${song.url}) [ ${chartLabel} ]`
-    : `${song.title} [ ${chartLabel} ]`;
+  return `${song.title} [${chartLabel}]`;
 }
 
 function displayDifficulty(song) {
