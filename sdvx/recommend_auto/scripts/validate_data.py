@@ -7,7 +7,7 @@ import json
 import sys
 from pathlib import Path
 
-from update_sdvx_data import LEVELS, validate_songs
+from update_sdvx_data import FALLBACK_CHARTS, LEVELS, source_key, validate_songs
 
 
 def main() -> int:
@@ -19,6 +19,9 @@ def main() -> int:
         raise ValueError("root must be an object containing a songs array")
     app_root = path.resolve().parents[1]
     counts = validate_songs(document["songs"], app_root)
+    sources = {source_key(song) for song in document["songs"] if song.get("difficultySource") == "fallback"}
+    if sources != FALLBACK_CHARTS:
+        raise ValueError(f"fallback charts differ from the confirmed deleted charts: {sorted(sources)}")
     expected = document.get("counts", {})
     actual_by_level = {str(level): counts[level] for level in LEVELS}
     if expected != {"total": len(document["songs"]), "byLevel": actual_by_level}:
@@ -31,7 +34,8 @@ def main() -> int:
     fallback_document = json.loads(script[len(prefix):-2])
     if fallback_document != document:
         raise ValueError("file fallback script does not match JSON")
-    print(f"valid JSON: {len(document['songs'])} songs; " + ", ".join(
+    verified = sum(song.get("difficultySource") == "wiki" for song in document["songs"])
+    print(f"valid JSON: {len(document['songs'])} songs; {verified} wiki, {len(sources)} fallback; " + ", ".join(
         f"L{level}={counts[level]}" for level in LEVELS
     ))
     return 0

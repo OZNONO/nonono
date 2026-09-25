@@ -33,11 +33,13 @@ python sdvx/recommend_auto/scripts/update_sdvx_data.py
 python sdvx/recommend_auto/scripts/validate_data.py
 ```
 
-크롤러는 `robots.txt`를 확인한 뒤 레벨별 정렬 페이지를 각각 한 번 요청합니다. 사이트가 최종 곡 `<div>`를 원본 HTML에 직접 넣지 않고 곡별 스크립트 선언으로 렌더링하므로, 선언의 곡 코드와 인접 주석의 제목을 매칭합니다. 처음 보는 곡만 해당 `sort.js`를 한 번 읽어 `MXM`, `GRV`, `INF`, `HVN`, `VVD`, `XCD`, `NBL` 등의 실제 채보 타입을 저장합니다.
+크롤러는 `robots.txt`를 확인한 뒤 sdvx.in 레벨별 정렬 페이지를 각각 한 번 요청합니다. 사이트가 최종 곡 `<div>`를 원본 HTML에 직접 넣지 않고 곡별 스크립트 선언으로 렌더링하므로, 선언의 곡 코드와 인접 주석의 제목을 매칭합니다. 처음 보는 곡만 해당 `sort.js`를 한 번 읽어 실제 채보 타입을 저장합니다.
 
-레벨 페이지에 `18.3`, `19.1`처럼 실제 세부 난이도 구간이 명시된 채보는 그 값을 저장합니다. 해당 표기가 없는 이전 버전 채보에는 값을 추정하지 않고 정수 레벨을 사용합니다.
+세부 난이도와 현행 채보 타입은 SOUND VOLTEX @ wiki의 최신 ∇ 레벨 목록을 가져와 곡명+채보 타입이 유일하게 일치할 때만 병합합니다. 잘린 제목과 표기 차이는 sdvx.in 소스 ID별로 확인한 명시적 별명만 사용하며 fuzzy matching은 하지 않습니다. 동명곡도 소스 ID로 구분합니다.
 
-네 페이지 중 하나라도 실패하거나 레벨이 비거나 검증이 실패하면 기존 JSON을 교체하지 않습니다. 곡 배열이 같으면 생성 시각을 바꾸지 않아 불필요한 커밋도 만들지 않습니다. 빈 값, `#`, `javascript:` 링크는 빈 문자열로 정규화하되 곡은 유지합니다.
+현재 1,906개 중 1,903개 채보가 `difficultySource: "wiki"`입니다. 검증 가능한 ∇ 난이도가 없는 삭제곡 `Realize`, `Redo`, `ふ・れ・ん・ど・し・た・い (WEREHEREMIX)`의 세 채보만 정수 17과 `difficultySource: "fallback"`을 저장합니다. 다른 미매칭·중복·fallback은 갱신 실패로 처리하여 기존 데이터를 덮어쓰지 않습니다.
+
+필수 sdvx.in 또는 wiki 페이지가 실패하거나 레벨이 비거나 병합 검증이 실패하면 기존 JSON을 교체하지 않습니다. 곡 배열이 같으면 생성 시각을 바꾸지 않아 불필요한 커밋도 만들지 않습니다. 빈 값, `#`, `javascript:` 링크는 빈 문자열로 정규화하되 곡은 유지합니다.
 
 ## 자켓 처리
 
@@ -60,6 +62,7 @@ python sdvx/recommend_auto/scripts/verify_jacket_samples.py
   "title": "BUBBLE RAVER",
   "level": 18,
   "difficulty": 18.4,
+  "difficultySource": "wiki",
   "chartType": "NBL",
   "url": "https://sdvx.in/02/02139m.htm",
   "jacketPath": "assets/jackets/02_02139_m.webp",

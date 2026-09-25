@@ -19,6 +19,8 @@ from update_sdvx_data import (
     optimize_jacket,
     parse_chart_type,
     parse_level_page,
+    parse_wiki_level_page,
+    merge_wiki_difficulties,
     script_content,
     validate_songs,
 )
@@ -29,6 +31,7 @@ def song_record(level: int, suffix: str = "m") -> dict[str, object]:
         "title": f"Song {level}",
         "level": level,
         "difficulty": level,
+        "difficultySource": "wiki",
         "chartType": "MXM",
         "url": f"https://sdvx.in/01/0100{level % 10}{suffix}.htm",
         "jacketPath": "",
@@ -49,6 +52,34 @@ class ParserTests(unittest.TestCase):
         self.assertEqual(18.3, songs[0]["difficulty"])
         self.assertEqual(18, songs[1]["difficulty"])
         self.assertEqual("https://sdvx.in/07/jacket/07001m.png", songs[0]["sourceJacketUrl"])
+
+    def test_parses_wiki_rating_and_chart_column(self):
+        page = """
+        <table><tr><td>dif</td><td>ind</td><td>NOV</td><td>ADV</td><td>EXH</td><td>MXM</td></tr>
+        <tr><td></td><td></td><td>06001</td><td>Song 18</td><td>180</td>
+        <td>06</td><td>12</td><td>15</td><td><b>18.4</b></td><td>-</td><td>2200</td><td></td></tr></table>
+        """
+        self.assertEqual(
+            [{"title": "Song 18", "difficulty": 18.4, "chartType": "MXM", "reference": "06001"}],
+            parse_wiki_level_page(page, 18.4),
+        )
+
+    def test_wiki_merge_keeps_only_confirmed_deleted_chart_as_fallback(self):
+        matched = song_record(18)
+        deleted = []
+        for title, generation, code in (
+            ("Realize", "06", "06360"),
+            ("Redo", "06", "06354"),
+            ("ふ・れ・ん・ど・し・た・い (WEREHEREMIX)", "05", "05220"),
+        ):
+            song = song_record(17)
+            song["title"] = title
+            song["source"] = {"generation": generation, "code": code, "difficultyKey": "M"}
+            deleted.append(song)
+        wiki = [{"title": "Song 18", "difficulty": 18.0, "chartType": "MXM", "reference": "06001"}]
+        merge_wiki_difficulties([matched, *deleted], wiki)
+        self.assertEqual((18.0, "wiki"), (matched["difficulty"], matched["difficultySource"]))
+        self.assertTrue(all((song["difficulty"], song["difficultySource"]) == (17, "fallback") for song in deleted))
 
     def test_parses_exact_chart_type_instead_of_source_letter(self):
         script = 'function TBR03075M(){document.title="Everlasting Message [GRV]";}'

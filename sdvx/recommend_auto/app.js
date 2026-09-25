@@ -55,6 +55,14 @@ function songCopyLine(song) {
   return `${song.title} (${song.level})`;
 }
 
+function displayDifficulty(song) {
+  const value = Number(song.difficulty);
+  if (song.difficultySource === "wiki" && song.level >= 18 && Number.isInteger(value)) {
+    return value.toFixed(1);
+  }
+  return String(song.difficulty);
+}
+
 function makeJacket(song) {
   const wrap = document.createElement("span");
   wrap.className = "jacket-wrap";
@@ -100,7 +108,7 @@ function makeSongRow(song) {
 
   const meta = document.createElement("div");
   meta.className = "song-meta";
-  const chartLabel = [song.chartType, song.difficulty].filter((value) => value !== "" && value != null).join(" ");
+  const chartLabel = [song.chartType, displayDifficulty(song)].filter((value) => value !== "" && value != null).join(" ");
   meta.textContent = song.url ? chartLabel : `${chartLabel} · 링크 없음`;
   info.append(title, meta);
   row.append(info);

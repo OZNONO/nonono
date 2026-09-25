@@ -16,6 +16,7 @@ import os
 import re
 import sys
 import tempfile
+import unicodedata
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -23,6 +24,7 @@ import urllib.robotparser
 from collections import Counter, defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
+from html.parser import HTMLParser
 from pathlib import Path, PurePosixPath
 
 from PIL import Image, ImageOps
@@ -35,6 +37,86 @@ USER_AGENT = "nonono-sdvx-data-updater/2.0 (+https://github.com/oznono/nonono)"
 MAX_WORKERS = 6
 JACKET_SIZE = (256, 256)
 JACKET_QUALITY = 78
+WIKI_BASE_URL = "https://w.atwiki.jp/sdvx"
+WIKI_PAGE_IDS = {
+    17.0: 12469,
+    17.5: 12470,
+    **{18.0 + tenth / 10: (12471 + tenth if tenth <= 4 else 12501 + tenth) for tenth in range(10)},
+    **{19.0 + tenth / 10: 12511 + tenth for tenth in range(10)},
+    **{20.0 + tenth / 10: 12521 + tenth for tenth in range(10)},
+}
+WIKI_URLS = {
+    difficulty: f"{WIKI_BASE_URL}/pages/{page_id}.html"
+    for difficulty, page_id in WIKI_PAGE_IDS.items()
+}
+SPECIAL_CHART_TYPES = {"INF", "GRV", "HVN", "VVD", "XCD", "NBL"}
+FALLBACK_CHARTS = {
+    ("06", "06360", "M"),  # Realize MXM (deleted before a verified ∇ rating)
+    ("06", "06354", "M"),  # Redo MXM
+    ("05", "05220", "M"),  # ふ・れ・ん・ど・し・た・い (WEREHEREMIX) MXM
+}
+# Confirmed source-ID overrides only. These are not fuzzy matches.
+WIKI_MATCH_OVERRIDES = {
+    ("01", "01103", "M"): ("十面相", 17.0, "VVD"),
+    ("06", "06104", "M"): ("カジノファイヤーことみちゃん", 18.4, "MXM"),
+    ("06", "06641", "M"): ("カジノファイヤーことみちゃん", 18.0, "MXM"),
+    ("06", "06097", "M"): ("- Jupiter -", 17.5, "MXM"),
+    ("06", "06582", "M"): ("Jupiter", 18.4, "MXM"),
+}
+TITLE_ALIASES: dict[tuple[str, str, str], str] = {
+    ("06", "06515", "M"): "Growing Up／アニメ「この素晴らしい世界に祝福を！３」より",
+    ("06", "06530", "M"): "I’m Your Treasure Box ＊あなたは マリンせんちょうを たからばこからみつけた。",
+    ("06", "06598", "E"): "Ö<3rf10₩",
+    ("06", "06598", "M"): "Ö<3rf10₩",
+    ("06", "06282", "M"): "Μοῦσα",
+    ("06", "06020", "M"): "トランスダンスアナーキー",
+    ("06", "06146", "M"): "みたらしプラトニック (feat. nicamoq)",
+    ("06", "06181", "E"): "Rhapsody ⚙f Triumph",
+    ("06", "06181", "M"): "Rhapsody ⚙f Triumph",
+    ("05", "05082", "M"): "50th Memorial Songs -The BEMANI History-",
+    ("05", "05061", "M"): "Sacrifice Escape: 不条理の模倣による感情と代償",
+    ("05", "05147", "M"): "近未来百鬼夜行譚～死返之巻～",
+    ("05", "05119", "E"): "Ghost Family Living In Graveyard",
+    ("05", "05119", "M"): "Ghost Family Living In Graveyard",
+    ("05", "05118", "E"): "Lancelot ～Flame of the Rebellion～",
+    ("05", "05118", "M"): "Lancelot ～Flame of the Rebellion～",
+    ("03", "03074", "E"): "KAC 2012 ULTIMATE MEDLEY -HISTORIA SOUND VOLTEX-",
+    ("03", "03074", "M"): "KAC 2012 ULTIMATE MEDLEY -HISTORIA SOUND VOLTEX-",
+    ("03", "03360", "E"): "Lord=Crossight",
+    ("03", "03360", "M"): "Lord=Crossight",
+    ("03", "03192", "E"): "じゅーじゅー♥焼肉の火からフェニックス！？～再誕の†炭火焼き～",
+    ("02", "02241", "M"): "患部で止まってすぐ溶ける ～ 狂気の優曇華院",
+    ("02", "02294", "E"): "CODE -CRiMSON-",
+    ("02", "02120", "E"): "DEADLOCK XXX",
+    ("02", "02252", "E"): "#FairyJoke #SDVX_Edit",
+    ("02", "02283", "E"): "FIRE FIRE(Kazmasa Remix)",
+    ("02", "02119", "E"): "snow storm -euphoria-",
+    ("02", "02178", "E"): "イゴモヨス=オムルのテーマによるブヨブヨ・スケッチの試み",
+    ("02", "02236", "E"): "信仰は儚き人間の為に ～ Arr.Demetori",
+    ("02", "02272", "E"): "柳の下のデュラハン hard chaos mix",
+    ("07", "07107", "E"): "KAC PERFECT ULTIMATE CHRONICLE -Lord of the SOUND VOLTEX-",
+    ("07", "07107", "M"): "KAC PERFECT ULTIMATE CHRONICLE -Lord of the SOUND VOLTEX-",
+    ("07", "07101", "M"): "VIIIX",
+    ("07", "07006", "M"): "稲田姫様に叱られちゃいました＃ ～ Romantic Shortfall",
+    ("06", "06436", "M"): "TOYBOX CANNØN=͟͞ Σ≡=｡ﾟ:*.:+｡.☆",
+    ("06", "06607", "M"): "覚悟せよ！エンタンメ～ン ～より身の切り売り自暴自棄版～",
+    ("06", "06362", "M"): "劇場版ムーニャポヨポヨスッポコニャーゴ~侵略だいず帝国！ドラマティック宇宙大戦争~",
+    ("06", "06266", "M"): "ØƵ",
+    ("06", "06077", "M"): "€omet popcorn",
+    ("06", "06158", "M"): "ゔぉるみっくす!!!!",
+    ("02", "02017", "M"): "She is my wife すーぱーアイドル☆ミツル子Remixちゃん",
+    ("05", "05022", "M"): "ARROW RAIN feat. ayame",
+    ("05", "05097", "M"): "JǛPITΨR ♂ GЯÃVITÝ",
+    ("05", "05284", "M"): "世界の果てに約束の凱歌を -VOLTEX Mix-",
+    ("04", "04370", "M"): "ouroboros -twin stroke of the end-",
+    ("04", "04246", "M"): "Яe's NoVǢ",
+    ("04", "04365", "M"): "お米の美味しい炊き方,そしてお米を食べることによるその効果。",
+    ("04", "04205", "E"): "KAC 2013 ULTIMATE MEDLEY -HISTORIA SOUND VOLTEX- Empress Side",
+    ("04", "04205", "M"): "KAC 2013 ULTIMATE MEDLEY -HISTORIA SOUND VOLTEX- Empress Side",
+    ("03", "03225", "E"): "冥天・ヘメロカリス",
+    ("02", "02081", "E"): "BabeL ～Next Story～",
+    ("01", "01071", "E"): "Ganymede kamome mix",
+}
 
 SONG_PATTERN = re.compile(
     r'<script\s+src=["\']/(?P<generation>\d{2})/js/'
@@ -44,6 +126,49 @@ SONG_PATTERN = re.compile(
     re.IGNORECASE | re.DOTALL,
 )
 VALID_CHART_TYPE = re.compile(r"^[A-Z][A-Z0-9]{2,7}$")
+
+
+class WikiTableParser(HTMLParser):
+    """Collect visible cell text without depending on atwiki CSS classes."""
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.rows: list[list[str]] = []
+        self._row: list[str] | None = None
+        self._cell: list[str] | None = None
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        if tag == "tr":
+            self._row = []
+        elif tag in {"td", "th"} and self._row is not None:
+            self._cell = []
+
+    def handle_data(self, data: str) -> None:
+        if self._cell is not None:
+            self._cell.append(data)
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag in {"td", "th"} and self._row is not None and self._cell is not None:
+            self._row.append(" ".join("".join(self._cell).split()))
+            self._cell = None
+        elif tag == "tr" and self._row is not None:
+            self.rows.append(self._row)
+            self._row = None
+
+
+def source_key(song: dict[str, object]) -> tuple[str, str, str]:
+    source = song["source"]
+    return str(source["generation"]), str(source["code"]), str(source["difficultyKey"])
+
+
+def normalize_title(value: str) -> str:
+    value = html.unescape(value).translate(str.maketrans({
+        "‘": "'", "’": "'", "“": '"', "”": '"', "Ø": "O", "ø": "o",
+        "‐": "-", "‑": "-", "–": "-", "—": "-", "―": "-", "〜": "~", "～": "~",
+    }))
+    decomposed = unicodedata.normalize("NFKD", value)
+    without_marks = "".join(char for char in decomposed if not unicodedata.combining(char))
+    return re.sub(r"[\W_]", "", unicodedata.normalize("NFKC", without_marks).casefold())
 
 
 def decode_body(body: bytes, declared_charset: str | None = None) -> str:
@@ -103,6 +228,7 @@ def parse_level_page(page: str, level: int, source_url: str) -> list[dict[str, o
                 "title": title,
                 "level": level,
                 "difficulty": internal_difficulty_before(page, match.start(), level),
+                "difficultySource": "fallback",
                 "chartType": "",
                 "url": normalize_url(f"/{generation}/{code}{suffix}.htm", source_url),
                 "jacketPath": "",
@@ -178,6 +304,117 @@ def collect_pages(fetcher=fetch_text, check_policy: bool = True) -> list[dict[st
     if removed:
         print(f"removed {removed} exact duplicate record(s)")
     return unique
+
+
+def parse_wiki_level_page(page: str, difficulty: float) -> list[dict[str, object]]:
+    parser = WikiTableParser()
+    parser.feed(page)
+    chart_headers: list[str] | None = None
+    for cells in parser.rows:
+        if len(cells) >= 6 and cells[:2] == ["dif", "ind"] and cells[2:6] == ["NOV", "ADV", "EXH", "MXM"]:
+            chart_headers = ["SPECIAL" if value in SPECIAL_CHART_TYPES else value for value in cells[2:]]
+    if not chart_headers:
+        return []
+
+    charts: list[dict[str, object]] = []
+    for cells in parser.rows:
+        if len(cells) < 6 + len(chart_headers) or not cells[3]:
+            continue
+        for offset, chart_type in enumerate(chart_headers):
+            column = 5 + offset
+            try:
+                cell_difficulty = float(cells[column])
+            except (ValueError, IndexError):
+                continue
+            if cell_difficulty == difficulty:
+                charts.append({
+                    "title": cells[3],
+                    "difficulty": difficulty,
+                    "chartType": chart_type,
+                    "reference": cells[2],
+                })
+    return charts
+
+
+def collect_wiki_difficulties(fetcher=fetch_text) -> list[dict[str, object]]:
+    charts: list[dict[str, object]] = []
+    for difficulty, url in WIKI_URLS.items():
+        page_charts = parse_wiki_level_page(fetcher(url), difficulty)
+        if not page_charts:
+            raise ValueError(f"wiki difficulty {difficulty:.1f}: no charts parsed")
+        charts.extend(page_charts)
+    print(f"wiki difficulties: {len(charts)} chart rating(s)")
+    return charts
+
+
+def chart_types_match(sdvx_type: str, wiki_type: str) -> bool:
+    return sdvx_type == wiki_type or (wiki_type == "SPECIAL" and sdvx_type in SPECIAL_CHART_TYPES)
+
+
+def merge_wiki_difficulties(
+    songs: list[dict[str, object]], wiki_charts: list[dict[str, object]]
+) -> None:
+    by_title: dict[str, list[dict[str, object]]] = defaultdict(list)
+    for chart in wiki_charts:
+        by_title[normalize_title(str(chart["title"]))].append(chart)
+
+    unmatched: list[dict[str, object]] = []
+    ambiguous: list[tuple[dict[str, object], list[dict[str, object]]]] = []
+    matched = 0
+    fallback_keys: set[tuple[str, str, str]] = set()
+    for song in songs:
+        key = source_key(song)
+        if key in FALLBACK_CHARTS:
+            song["difficulty"] = song["level"]
+            song["difficultySource"] = "fallback"
+            fallback_keys.add(key)
+            continue
+
+        override = WIKI_MATCH_OVERRIDES.get(key)
+        requested_title = TITLE_ALIASES.get(key, str(song["title"]))
+        requested_type = str(song["chartType"])
+        requested_difficulty: float | None = None
+        if override:
+            requested_title, requested_difficulty, requested_type = override
+
+        candidates = [
+            chart for chart in by_title.get(normalize_title(requested_title), [])
+            if chart_types_match(requested_type, str(chart["chartType"]))
+            and (requested_difficulty is None or chart["difficulty"] == requested_difficulty)
+        ]
+        if len(candidates) != 1:
+            if candidates:
+                ambiguous.append((song, candidates))
+            else:
+                unmatched.append(song)
+            continue
+
+        chart = candidates[0]
+        song["difficulty"] = float(chart["difficulty"])
+        song["difficultySource"] = "wiki"
+        song["chartType"] = requested_type
+        matched += 1
+
+    if fallback_keys != FALLBACK_CHARTS:
+        raise ValueError(
+            "confirmed fallback charts changed: "
+            f"expected={sorted(FALLBACK_CHARTS)}, actual={sorted(fallback_keys)}"
+        )
+    if unmatched or ambiguous:
+        details = [
+            f"{source_key(song)} {song['title']} [{song['chartType']}]"
+            for song in unmatched
+        ]
+        details.extend(
+            f"{source_key(song)} {song['title']} [{song['chartType']}] -> "
+            + ", ".join(f"{chart['title']} {chart['difficulty']:.1f}" for chart in candidates)
+            for song, candidates in ambiguous
+        )
+        raise ValueError(
+            f"wiki merge incomplete: matched={matched}, fallback={len(fallback_keys)}, "
+            f"unresolved={len(details)}\n" + "\n".join(details)
+        )
+    print(f"wiki merge: {matched} verified, {len(fallback_keys)} fallback")
 
 
 def enrich_chart_types(
@@ -307,6 +544,7 @@ def validate_songs(songs: list[dict[str, object]], app_root: Path | None = None)
         title = song.get("title")
         level = song.get("level")
         difficulty = song.get("difficulty")
+        difficulty_source = song.get("difficultySource")
         chart_type = song.get("chartType")
         url = song.get("url")
         jacket_path = song.get("jacketPath")
@@ -317,6 +555,10 @@ def validate_songs(songs: list[dict[str, object]], app_root: Path | None = None)
             raise ValueError(f"song {index} has invalid level: {level!r}")
         if not isinstance(difficulty, (int, float)) or not level <= difficulty < level + 1:
             raise ValueError(f"song {index} has invalid detailed difficulty: {difficulty!r}")
+        if difficulty_source not in {"wiki", "fallback"}:
+            raise ValueError(f"song {index} has invalid difficulty source: {difficulty_source!r}")
+        if difficulty_source == "fallback" and source_key(song) not in FALLBACK_CHARTS:
+            raise ValueError(f"song {index} has an unexpected difficulty fallback")
         if not isinstance(chart_type, str) or (chart_type and not VALID_CHART_TYPE.fullmatch(chart_type)):
             raise ValueError(f"song {index} has invalid chart type: {chart_type!r}")
         for field, value in (("url", url), ("sourceJacketUrl", source_jacket_url)):
@@ -346,9 +588,9 @@ def validate_songs(songs: list[dict[str, object]], app_root: Path | None = None)
 def make_document(songs: list[dict[str, object]], app_root: Path) -> dict[str, object]:
     counts = validate_songs(songs, app_root)
     return {
-        "schemaVersion": 3,
+        "schemaVersion": 4,
         "generatedAt": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
-        "source": [PAGE_URLS[level] for level in LEVELS],
+        "source": [PAGE_URLS[level] for level in LEVELS] + list(WIKI_URLS.values()),
         "counts": {
             "total": len(songs),
             "byLevel": {str(level): counts[level] for level in LEVELS},
@@ -414,6 +656,8 @@ def main() -> int:
         }
         songs = collect_pages(check_policy=not args.skip_robots)
         enrich_chart_types(songs, existing_by_url)
+        wiki_charts = collect_wiki_difficulties()
+        merge_wiki_difficulties(songs, wiki_charts)
         cache_jackets(songs, existing_by_url, app_root / "assets" / "jackets")
         validate_songs(songs, app_root)
 
