@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#111827" />
+  <title>리듬게임 팀 점수 계산기</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #111827;
+      --panel2: #182033;
+      --line: #2a3550;
+      --text: #f4f7fb;
+      --muted: #9ca9bf;
+      --accent: #7c9cff;
+      --win: #a7f3d0;
+    }
+
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .wrap {
+      width: min(100%, 820px);
+      margin: 0 auto;
+      padding: 16px 12px 40px;
+    }
+
+    .hero {
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: 24px;
+      line-height: 1.25;
+    }
+
+    .sub {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .result {
+      position: sticky;
+      top: 8px;
+      z-index: 10;
+      margin: 14px 0 18px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(17, 24, 39, 0.96);
+      backdrop-filter: blur(8px);
+    }
+
+    .result-main {
+      font-size: 23px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .result-sub {
+      margin-top: 5px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .team {
+      margin-bottom: 18px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--panel);
+    }
+
+    .team-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .team-title {
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .team-total-label {
+      color: var(--muted);
+      font-size: 12px;
+      text-align: right;
+    }
+
+    .team-total {
+      margin-top: 2px;
+      font-size: 20px;
+      font-weight: 800;
+      text-align: right;
+    }
+
+    .player {
+      padding: 13px;
+      margin-top: 10px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--panel2);
+    }
+
+    .player-top {
+      display: grid;
+      grid-template-columns: 1fr 118px;
+      gap: 10px;
+      align-items: end;
+    }
+
+    label {
+      display: block;
+      min-width: 0;
+    }
+
+    .label {
+      display: block;
+      margin: 0 0 5px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    input {
+      width: 100%;
+      min-height: 46px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #0f172a;
+      color: var(--text);
+      padding: 10px 11px;
+      font: inherit;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(124, 156, 255, 0.18);
+    }
+
+    .multiplier {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: right;
+    }
+
+    .scores {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .adjusted {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .adjusted > div {
+      min-width: 0;
+      padding: 8px 6px;
+      border-radius: 9px;
+      background: #0f172a;
+      text-align: center;
+    }
+
+    .adj-label {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .adj-value {
+      display: block;
+      margin-top: 3px;
+      overflow-wrap: anywhere;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .player-total {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--line);
+      font-size: 14px;
+    }
+
+    .player-total span:first-child {
+      color: var(--muted);
+    }
+
+    .player-total strong {
+      font-size: 16px;
+    }
+
+    .footer-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 8px;
+    }
+
+    button {
+      min-height: 46px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--panel);
+      color: var(--text);
+      padding: 0 16px;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    .formula {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 560px) {
+      .wrap { padding-left: 10px; padding-right: 10px; }
+      h1 { font-size: 21px; }
+      .team { padding: 11px; }
+      .player { padding: 11px; }
+      .player-top { grid-template-columns: 1fr 105px; }
+      .scores { gap: 6px; }
+      .scores input { padding-left: 8px; padding-right: 8px; }
+      .adjusted { gap: 6px; }
+      .team-total { font-size: 18px; }
+    }
+
+    @media (max-width: 370px) {
+      .player-top { grid-template-columns: 1fr; }
+      .multiplier { text-align: left; }
+      .scores { grid-template-columns: 1fr; }
+      .adjusted { grid-template-columns: 1fr; }
+      .adjusted > div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .adj-value { margin-top: 0; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="hero">
+      <h1>리듬게임 팀 점수 계산기</h1>
+      <p class="sub">각 참가자의 레이팅에 따라 곡별 점수를 보정한 뒤, 팀당 15곡 합계로 승패를 계산합니다.</p>
+    </header>
+
+    <section class="result" aria-live="polite">
+      <div id="resultMain" class="result-main">점수를 입력해줘</div>
+      <div id="resultSub" class="result-sub">레이팅 20.000 = 100%</div>
+    </section>
+
+    <section class="team">
+      <div class="team-head">
+        <div class="team-title">1팀</div>
+        <div>
+          <div class="team-total-label">팀 최종 점수</div>
+          <div id="team1Total" class="team-total">0</div>
+        </div>
+      </div>
+      <div id="team1Players"></div>
+    </section>
+
+    <section class="team">
+      <div class="team-head">
+        <div class="team-title">2팀</div>
+        <div>
+          <div class="team-total-label">팀 최종 점수</div>
+          <div id="team2Total" class="team-total">0</div>
+        </div>
+      </div>
+      <div id="team2Players"></div>
+    </section>
+
+    <div class="footer-actions">
+      <button id="resetBtn" type="button">전체 초기화</button>
+    </div>
+
+    <div class="formula">
+      보정 배율 = 1 - (레이팅 - 20) × 0.005<br>
+      곡별 보정 점수 = 원점수 × 보정 배율<br>
+      최종 팀 점수 = 5명의 3곡 보정 점수 합계
+    </div>
+  </main>
+
+  <script>
+    const $ = (selector, root = document) => root.querySelector(selector);
+    const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+
+    const format = (n) => Math.round(n).toLocaleString("ko-KR");
+
+    function safeNumber(value, fallback = 0) {
+      const n = Number(value);
+      return Number.isFinite(n) ? n : fallback;
+    }
+
+    function getMultiplier(rating) {
+      const m = 1 - (rating - 20) * 0.005;
+      return Math.max(0, m);
+    }
+
+    function playerHTML(team, index) {
+      return `
+        <article class="player" data-player data-team="${team}">
+          <div class="player-top">
+            <label>
+              <span class="label">이름</span>
+              <input data-name type="text" value="${index}번" autocomplete="off">
+            </label>
+
+            <label>
+              <span class="label">레이팅</span>
+              <input data-rating type="number" inputmode="decimal" step="0.001" value="20.000">
+              <div class="multiplier">배율 <strong data-multiplier>100.000%</strong></div>
+            </label>
+          </div>
+
+          <div class="scores">
+            <label>
+              <span class="label">1곡 점수</span>
+              <input data-score="1" type="number" inputmode="numeric" min="0" step="1" placeholder="0">
+            </label>
+            <label>
+              <span class="label">2곡 점수</span>
+              <input data-score="2" type="number" inputmode="numeric" min="0" step="1" placeholder="0">
+            </label>
+            <label>
+              <span class="label">3곡 점수</span>
+              <input data-score="3" type="number" inputmode="numeric" min="0" step="1" placeholder="0">
+            </label>
+          </div>
+
+          <div class="adjusted">
+            <div><span class="adj-label">1곡 보정</span><strong class="adj-value" data-adjusted="1">0</strong></div>
+            <div><span class="adj-label">2곡 보정</span><strong class="adj-value" data-adjusted="2">0</strong></div>
+            <div><span class="adj-label">3곡 보정</span><strong class="adj-value" data-adjusted="3">0</strong></div>
+          </div>
+
+          <div class="player-total">
+            <span>개인 합계</span>
+            <strong data-player-total>0</strong>
+          </div>
+        </article>
+      `;
+    }
+
+    function buildPlayers() {
+      $("#team1Players").innerHTML =
+        Array.from({ length: 5 }, (_, i) => playerHTML(1, i + 1)).join("");
+
+      $("#team2Players").innerHTML =
+        Array.from({ length: 5 }, (_, i) => playerHTML(2, i + 1)).join("");
+    }
+
+    function recalc() {
+      const totals = { 1: 0, 2: 0 };
+
+      $$("[data-player]").forEach((player) => {
+        const team = Number(player.dataset.team);
+        const rating = safeNumber($("[data-rating]", player).value, 20);
+        const multiplier = getMultiplier(rating);
+
+        $("[data-multiplier]", player).textContent =
+          (multiplier * 100).toFixed(3) + "%";
+
+        let playerTotal = 0;
+
+        [1, 2, 3].forEach((song) => {
+          const scoreInput = $(`[data-score="${song}"]`, player);
+          const rawScore = Math.max(0, safeNumber(scoreInput.value, 0));
+          const adjustedScore = rawScore * multiplier;
+
+          $(`[data-adjusted="${song}"]`, player).textContent = format(adjustedScore);
+          playerTotal += adjustedScore;
+        });
+
+        $("[data-player-total]", player).textContent = format(playerTotal);
+        totals[team] += playerTotal;
+      });
+
+      const team1 = Math.round(totals[1]);
+      const team2 = Math.round(totals[2]);
+
+      $("#team1Total").textContent = format(team1);
+      $("#team2Total").textContent = format(team2);
+
+      if (team1 === 0 && team2 === 0) {
+        $("#resultMain").textContent = "점수를 입력해줘";
+        $("#resultSub").textContent = "레이팅 20.000 = 100%";
+        return;
+      }
+
+      if (team1 === team2) {
+        $("#resultMain").textContent = "동점";
+        $("#resultSub").textContent = format(team1) + "점";
+        return;
+      }
+
+      const winner = team1 > team2 ? "1팀" : "2팀";
+      const diff = Math.abs(team1 - team2);
+
+      $("#resultMain").textContent = winner + " 승리";
+      $("#resultSub").textContent = format(diff) + "점 차이";
+    }
+
+    function resetAll() {
+      $$("[data-player]").forEach((player, i) => {
+        $("[data-name]", player).value = (i % 5 + 1) + "번";
+        $("[data-rating]", player).value = "20.000";
+        $$("[data-score]", player).forEach((input) => input.value = "");
+      });
+      recalc();
+    }
+
+    buildPlayers();
+    document.addEventListener("input", recalc);
+    $("#resetBtn").addEventListener("click", resetAll);
+    recalc();
+  </script>
+</body>
+</html>
